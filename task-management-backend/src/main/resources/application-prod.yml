@@ -1,0 +1,17 @@
+spring:
+    config:
+        activate:
+            on-profile: dev
+    datasource:
+        username: root
+        password: password
+        url: jdbc:mysql://mysqldb:6603/taskdb
+    jpa:
+        show-sql: 'true'
+        hibernate:
+            ddl-auto: update
+            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    servlet:
+        multipart:
+            enabled: 'true'
+            max-file-size: 100MB
