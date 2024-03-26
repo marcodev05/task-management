@@ -3,6 +3,7 @@ package com.tsk.task.dtos.requests;
 import com.tsk.task.dtos.Pagination;
 import com.tsk.task.entities.TaskStatus;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 public class TaskSearchDto {
