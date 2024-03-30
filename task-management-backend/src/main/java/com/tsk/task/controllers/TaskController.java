@@ -67,6 +67,5 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // todo documentation swagger
     // todo test unitaire et integration
 }

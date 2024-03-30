@@ -1,0 +1,23 @@
+<div class="mt-5">
+    <div class="row" *ngIf="tasks.length > 0;else noTask">
+        <div class="col-3" *ngFor="let task of tasks">
+            <div class="card text-center">
+                <div class="card-header">
+                    {{task.name}}
+                </div>
+                <div class="card-body">
+                    <p class="card-text"> {{task.description}}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{task.status}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noTask>
+        <h3>List is empty</h3>
+    </ng-template>
+    
+</div>
