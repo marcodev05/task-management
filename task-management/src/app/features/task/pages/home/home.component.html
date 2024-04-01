@@ -1,6 +1,6 @@
 <div class="mt-5">
     <div class="row" *ngIf="tasks.length > 0;else noTask">
-        <div class="col-3" *ngFor="let task of tasks">
+        <div class="col-3 mb-4" *ngFor="let task of tasks">
             <div class="card text-center">
                 <div class="card-header">
                     {{task.name}}

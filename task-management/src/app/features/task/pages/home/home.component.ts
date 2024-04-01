@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         this.tasks = response.data.content;
       },
       error: (error) => {
-        alert("server error : " + error.error )
+        alert("server error : " + error.error);
       }
     })
   }
