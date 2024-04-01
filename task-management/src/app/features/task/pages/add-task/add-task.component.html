@@ -1,0 +1,14 @@
+<h2 class="mb-3 mt-3" >Add new task</h2>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <label for="name" class="form-label">Title<span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" formControlName="name">
+        <div id="nameHelp" *ngIf="name?.touched && name?.errors?.['required']" class="form-text text-danger">Name is mandatory</div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description<span class="text-danger">*</span></label>
+        <textarea name="description" class="form-control" id="description" cols="30" rows="5" formControlName="description"></textarea>
+        <div  *ngIf="description?.touched && description?.errors?.['required']" class="form-text text-danger">Description is mandatory</div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!taskForm.valid">Create</button>
+</form>

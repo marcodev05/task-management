@@ -2,9 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Task } from '../models/task';
-import { Sorting } from 'src/app/core/models/sorting';
 import { TaskSearchRequest } from '../models/taskSearchRequest';
+import { ResponseApi } from 'src/app/core/models/response-api.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +14,19 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(param?: TaskSearchRequest): Observable<any> {
+  getTasks(param?: TaskSearchRequest): Observable<ResponseApi<any>> {
     let params = new HttpParams();
-   // params.set('pagination.page', param.pagination?.page.toString );
+    params.set('pagination.page', param?.pagination ? param.pagination?.page.toString() : '');
+    params.set('pagination.size', param?.pagination ? param.pagination?.size.toString() : '');
     return this.http.get<any>(this.apiBaseUrl + "/tasks", { params: params });
   }
 
-  addTask(task: FormData): Observable<Task> {
-    return this.http.post<Task>(this.apiBaseUrl, task);
+  addTask(task: any): Observable<ResponseApi<any>> {
+    return this.http.post<ResponseApi<any>>(this.apiBaseUrl + "/tasks", task);
   }
 
-  deleteTask(taskId: number): Observable<void> {
+  deleteTask(taskId: number): Observable<ResponseApi<any>> {
     const url = `${this.apiBaseUrl}/${taskId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<ResponseApi<any>>(url);
   }
-
 }
