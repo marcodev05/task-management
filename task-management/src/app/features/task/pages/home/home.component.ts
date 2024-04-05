@@ -9,22 +9,27 @@ import { Task } from '../../models/task';
 })
 export class HomeComponent implements OnInit {
 
+  loadData: boolean = true;
   tasks: Task[] = [];
+
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
     this.loadTasks();
   }
 
-  loadTasks(){
+  loadTasks() {
     this.taskService.getTasks().subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.tasks = response.data.content;
+        this.loadData = false;
       },
       error: (error) => {
-        alert("server error : " + error.error);
+        console.log(error.error);
+        this.loadData = false;
       }
     })
   }
+
 
 }

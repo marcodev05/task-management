@@ -1,23 +1,33 @@
 <div class="mt-5">
-    <div class="row" *ngIf="tasks.length > 0;else noTask">
-        <div class="col-3 mb-4" *ngFor="let task of tasks">
-            <div class="card text-center">
-                <div class="card-header">
-                    {{task.name}}
-                </div>
-                <div class="card-body">
-                    <p class="card-text"> {{task.description}}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-                <div class="card-footer text-muted">
-                    {{task.status}}
+    <div class="row">
+            <div *ngIf="!loadData; else loadingData"></div>
+            <div class="row" *ngIf="tasks.length > 0">
+                <div class="col-3 mb-4" *ngFor="let task of tasks">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{task.name}}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"> {{task.description}}</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="row">
+                                <div class="col-6"><a href="#" class="btn btn-success">Start</a></div>
+                                <div class="col-6"><a href="#" class="btn btn-danger">Finish</a></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div *ngIf="!loadData && tasks.length <= 0">
+                <h3>List is empty</h3>
+            </div>
+            <ng-template #loadingData>
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin" style="font-size:60px;"> </i>
+                </div>
+            </ng-template>
     </div>
 
-    <ng-template #noTask>
-        <h3>List is empty</h3>
-    </ng-template>
-    
 </div>

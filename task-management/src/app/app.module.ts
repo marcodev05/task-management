@@ -12,6 +12,7 @@ import { NavbarComponent } from './core/layout/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { ErrorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { AddTaskComponent } from './features/task/pages/add-task/add-task.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { AddTaskComponent } from './features/task/pages/add-task/add-task.compon
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true }
