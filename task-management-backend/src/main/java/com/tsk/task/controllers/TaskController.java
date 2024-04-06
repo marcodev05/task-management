@@ -36,6 +36,16 @@ public class TaskController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/api/v1/tasks/{id}")
+    public ResponseEntity<Response<Task>> findTaskById(@PathVariable("id") Long id) {
+        Task task = taskService.getTaskById(id);
+        Response<Task> response = new Response<Task>(task)
+                .status(HttpStatus.OK.value())
+                .message("SINGLE TASK")
+                .has_error(false);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @ApiOperation("Add new task")
     @PostMapping("/api/v1/tasks")
     public ResponseEntity<Response<Task>> createTask(@Valid TaskRequestDto request) {

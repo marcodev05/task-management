@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task';
+import { LoadingService } from 'src/app/core/services/loading.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,12 +11,15 @@ import { Task } from '../../models/task';
 })
 export class HomeComponent implements OnInit {
 
-  loadData: boolean = true;
+  loading$!: Observable<boolean>;
   tasks: Task[] = [];
 
-  constructor(private taskService: TaskService) { }
+  constructor(
+    private taskService: TaskService,
+    private loadingService: LoadingService) { }
 
   ngOnInit(): void {
+    this.setLoading();
     this.loadTasks();
   }
 
@@ -22,14 +27,28 @@ export class HomeComponent implements OnInit {
     this.taskService.getTasks().subscribe({
       next: (response) => {
         this.tasks = response.data.content;
-        this.loadData = false;
       },
       error: (error) => {
         console.log(error.error);
-        this.loadData = false;
       }
     })
   }
 
+
+  onDelete(id: number): void {
+    this.taskService.deleteTask(id).subscribe({
+      next: (response) => {
+        this.loadTasks();
+      },
+      error: (error) => {
+        console.log(error.error);
+      }
+    });
+  }
+
+  setLoading(){
+    this.loadingService.setLoading(true);
+    this.loading$ = this.loadingService.loading$; 
+  }
 
 }
