@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AddTaskComponent implements OnInit {
 
+  loadingCreate: boolean = false;
   taskForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required]
@@ -34,17 +35,15 @@ export class AddTaskComponent implements OnInit {
 
   onSubmit(){
     const formData = this.taskForm.value;
+    this.loadingCreate = true;
     this.taskService.addTask(formData).subscribe({
       next: (response) => {
-        console.log('success');
-        console.log(response);
+        this.loadingCreate = false;
         this.router.navigate(['/tasks']);
-        
-        
       },
       error: (error) => {
-        console.log("Error: ");
         console.log(error.error);
+        this.loadingCreate = false;
       }
     })
   }

@@ -10,5 +10,5 @@
         <textarea name="description" class="form-control" id="description" cols="30" rows="5" formControlName="description"></textarea>
         <div  *ngIf="description?.touched && description?.errors?.['required']" class="form-text text-danger">Description is mandatory</div>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!taskForm.valid">Create</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!taskForm.valid">Create  <span *ngIf="loadingCreate"><i class="fas fa-spinner fa-spin"> </i></span></button>
 </form>

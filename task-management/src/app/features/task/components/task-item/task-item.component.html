@@ -1,0 +1,15 @@
+<div class="card text-center">
+    <div class="card-header">
+        <b> {{ task.name }} </b>
+        <div class="position-absolute top-0 start-100 translate-middle"><a href="#" (click)="onDelete(task.id)" ><i class="fa-solid fa-circle-xmark text-danger"></i></a></div>
+    </div>
+    <div class="card-body">
+        <p class="card-text"> {{ task.description }} </p>
+    </div>
+    <div class="card-footer text-muted">
+        <div class="d-flex flex-row-reverse">
+            <div class="col-2"><a href="#" class="btn btn-sm btn-danger"><i class="fa-solid fa-stop" style="font-size: small;"></i></a></div>
+            <div class="col-2"><a href="#" class="btn btn-sm btn-success"><i class="fa-solid fa-play" style="font-size: small;"></i></a> </div>
+        </div>
+    </div>
+</div>
