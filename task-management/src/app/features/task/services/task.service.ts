@@ -25,8 +25,11 @@ export class TaskService {
     return this.http.post<ResponseApi<any>>(this.apiBaseUrl + "/tasks", task);
   }
 
+  fetchTaskById(taskId: number): Observable<ResponseApi<any>> {
+    return this.http.get<ResponseApi<any>>(this.apiBaseUrl + "/tasks/" + taskId);
+  }
+
   deleteTask(taskId: number): Observable<ResponseApi<any>> {
-    const url = `${this.apiBaseUrl}/${taskId}`;
-    return this.http.delete<ResponseApi<any>>(url);
+    return this.http.delete<ResponseApi<any>>(this.apiBaseUrl + "/tasks/" + taskId);
   }
 }

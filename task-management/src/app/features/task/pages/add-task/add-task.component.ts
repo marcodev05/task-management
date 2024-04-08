@@ -34,12 +34,13 @@ export class AddTaskComponent implements OnInit {
   }
 
   onSubmit(){
-    const formData = this.taskForm.value;
+    if(this.loadingCreate) return;
     this.loadingCreate = true;
+    const formData = this.taskForm.value;
     this.taskService.addTask(formData).subscribe({
       next: (response) => {
         this.loadingCreate = false;
-        this.router.navigate(['/tasks']);
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.log(error.error);
