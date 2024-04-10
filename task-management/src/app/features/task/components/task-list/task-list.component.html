@@ -1,0 +1,14 @@
+<div class="row" *ngIf="tasks.length > 0">
+    <ng-container *ngFor="let task of tasks">
+        <div class="col-md-4 col-lg-3 mb-5">
+            <task-item [task]="task" (deleteTask)="onDelete($event)"></task-item>
+        </div>
+    </ng-container>
+</div>
+
+
+<div class="empty-center d-flex justify-content-center align-items-center">
+    <div *ngIf="!(loading$ | async) && tasks.length <= 0">
+        <h3>List is empty</h3>
+    </div>
+</div>
