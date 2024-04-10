@@ -41,7 +41,7 @@ class TaskServiceImplTest {
         dto.setName("one");
         dto.setPagination(new Pagination());
         dto.setStatus(TaskStatus.CREATED);
-        
+
         // mock config
         Page<Task> mockTaskPage = MockResource.createMockTaskPage();
         when(taskRepository.findAll(any(Pageable.class))).thenReturn(mockTaskPage);

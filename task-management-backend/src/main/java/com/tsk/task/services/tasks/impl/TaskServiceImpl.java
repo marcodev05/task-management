@@ -1,5 +1,6 @@
 package com.tsk.task.services.tasks.impl;
 
+import com.tsk.task.commons.StringUtils;
 import com.tsk.task.dtos.PaginationResponse;
 import com.tsk.task.dtos.requests.TaskRequestDto;
 import com.tsk.task.dtos.requests.TaskSearchDto;
@@ -12,8 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +29,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public PaginationResponse<List<Task>> findAllTasks(TaskSearchDto params) {
+        Specification<Task> specification = (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!StringUtils.isBlank(params.getKeyword())) {
+                String keyword = params.getKeyword().toLowerCase();
+                Predicate keywordPredicate = criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("description")), "%" + keyword + "%")
+                );
+                predicates.add(keywordPredicate);
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+
         Pageable pageable = PageRequest.of(params.getPagination().getPage() - 1, params.getPagination().getSize());
-        Page<Task> taskPage = taskRepository.findAll(pageable);
+        Page<Task> taskPage = taskRepository.findAll(specification, pageable);
         return new PaginationResponse<>(taskPage.getContent(), taskPage.getTotalElements());
     }
 
@@ -51,8 +68,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTaskById(Long id) {
+    public Task deleteTaskById(Long id) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new NotFoundResourceException("task", id));
         taskRepository.deleteById(task.getId());
+        return task;
     }
 }
