@@ -15,6 +15,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   constructor(private loadingService: LoadingService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.loadingService.setLoading(true);
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError(() => error);

@@ -1,0 +1,8 @@
+<div *ngIf="!(loading$ | async); else loadingData"> </div>
+<ng-template #loadingData>
+    <div class="spinner-container">
+        <div class="text-center mb-5 spinner-center">
+            <i class="fa-solid fa-hourglass-start fa-fade text-info" style="font-size:60px;"></i>
+        </div>
+    </div>
+</ng-template>

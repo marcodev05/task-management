@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +13,9 @@ export class LoadingService {
 
   setLoading(loading: boolean): void {
     this.loadingSubject.next(loading);
+  }
+
+  isLoading(): Observable<boolean> {
+    return this.loading$;
   }
 }

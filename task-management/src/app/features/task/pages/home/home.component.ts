@@ -3,6 +3,8 @@ import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { Observable } from 'rxjs';
+import { TaskSearchRequest } from '../../models/task-search-request';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -10,23 +12,36 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  loading$!: Observable<boolean>;
   tasks: Task[] = [];
+
+  get visibleTasks(): Task[] {
+    return this.tasks;
+  }
+
+  searchForm = this.fb.group({
+    keyword: [''],
+    status: ['0'],
+    pagination: this.fb.group({
+      page: [1],
+      size: [10]
+    })
+  })
 
   constructor(
     private taskService: TaskService,
-    private loadingService: LoadingService) { }
+    private loadingService: LoadingService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.setLoading();
     this.loadTasks();
   }
 
-  loadTasks() {
-    this.taskService.getTasks().subscribe({
+  loadTasks(param?: any) {
+    this.taskService.getTasks(param).subscribe({
       next: (response) => {
         this.tasks = response.data.content;
+        console.log("content length:", response.data.content.length);
+
       },
       error: (error) => {
         console.log(error.error);
@@ -34,11 +49,10 @@ export class HomeComponent implements OnInit {
     })
   }
 
-
-  onDelete(id: number): void {
-    this.taskService.deleteTask(id).subscribe({
+  onDelete(task: Task): void {
+    this.taskService.deleteTask(task.id).subscribe({
       next: (response) => {
-        this.loadTasks();
+        this.tasks = this.tasks.filter(t => t != task);
       },
       error: (error) => {
         console.log(error.error);
@@ -46,9 +60,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  setLoading(){
-    this.loadingService.setLoading(true);
-    this.loading$ = this.loadingService.loading$; 
+
+  onSubmit() {
+    const params = this.searchForm.value;
+    this.loadTasks(params);
   }
 
 }
