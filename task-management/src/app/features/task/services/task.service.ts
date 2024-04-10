@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TaskSearchRequest } from '../models/taskSearchRequest';
+import { TaskSearchRequest } from '../models/task-search-request';
 import { ResponseApi } from 'src/app/core/models/response-api.model';
 
 @Injectable({
@@ -14,11 +14,17 @@ export class TaskService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(param?: TaskSearchRequest): Observable<ResponseApi<any>> {
-    let params = new HttpParams();
-    params.set('pagination.page', param?.pagination ? param.pagination?.page.toString() : '');
-    params.set('pagination.size', param?.pagination ? param.pagination?.size.toString() : '');
-    return this.http.get<any>(this.apiBaseUrl + "/tasks", { params: params });
+  getTasks(param?: any): Observable<ResponseApi<any>> {
+    console.log("param " , param);
+    let params;
+    if(param){
+      params = new HttpParams()
+      .set('pagination.page', param?.pagination ? param.pagination?.page : '1')
+      .set('pagination.size', param?.pagination ? param.pagination.size : '10')
+      .set('keyword', param.keyword)
+    }
+    
+    return this.http.get<any>(this.apiBaseUrl + "/tasks", { params });
   }
 
   addTask(task: any): Observable<ResponseApi<any>> {
