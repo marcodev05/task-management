@@ -19,7 +19,10 @@ export class DataSerializerService {
         if (value !== null && typeof value === 'object') {
           parts.push(this.serializeParameters(value, prefix ? `${prefix}.${key}` : key));
         } else {
-          const finalKey = prefix ? `${prefix}.${key}` : key;
+          let finalKey = prefix ? `${prefix}.${key}` : key;
+          if (!isNaN(Number(key))){
+            finalKey = prefix ? `${prefix}[${key}]` : `[${key}]`;
+          }   
           parts.push(`${encodeURIComponent(finalKey)}=${encodeURIComponent(value)}`);
         }
       }
