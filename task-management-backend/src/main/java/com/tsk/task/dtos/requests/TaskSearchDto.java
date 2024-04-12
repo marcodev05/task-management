@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 public class TaskSearchDto {
     private Pagination pagination = new Pagination();
-    private List<TaskStatus> status;
+    private List<TaskStatus> statuses;
     private String keyword;
 }

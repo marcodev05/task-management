@@ -1,5 +1,6 @@
 package com.tsk.task.services.tasks.impl;
 
+import com.tsk.task.commons.CollectionUtils;
 import com.tsk.task.commons.StringUtils;
 import com.tsk.task.dtos.PaginationResponse;
 import com.tsk.task.dtos.requests.TaskRequestDto;
@@ -39,6 +40,11 @@ public class TaskServiceImpl implements TaskService {
                 );
                 predicates.add(keywordPredicate);
             }
+            if (!CollectionUtils.isEmpty(params.getStatuses())) {
+                Predicate statusPredicate = root.get("status").in(params.getStatuses());
+                predicates.add(statusPredicate);
+            }
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
 
