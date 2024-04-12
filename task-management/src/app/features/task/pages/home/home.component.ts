@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
 
   searchForm = this.fb.group({
     keyword: [''],
-    status: ['0'],
+    status: ['ALL'],
     pagination: this.fb.group({
       page: [1],
       size: [10]
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.loadTasks();
+    this.loadTasks({statuses: ['CREATED']});
   }
 
   loadTasks(param?: any) {
@@ -62,7 +62,12 @@ export class HomeComponent implements OnInit {
 
 
   onSubmit() {
-    const params = this.searchForm.value;
+    const status = this.searchForm.controls.status.value == 'ALL' ? null : this.searchForm.controls.status.value;
+    let searchObject = this.searchForm.value;
+    const params = {...searchObject, ...{
+      statuses:  status !== null ? Array.of(status) : []
+    }};
+    delete params.status;
     this.loadTasks(params);
   }
 

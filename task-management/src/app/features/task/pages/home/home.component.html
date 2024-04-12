@@ -2,12 +2,11 @@
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <div class="row mb-5">
             <div class="col-5">
-                <select class="form-select" name="task-status" formControlName="status">
-                    <option selected value="0">--- Select task status ---</option>
-                    <option value="0">All</option>
-                    <option value="1">In progress</option>
-                    <option value="2">Suspended</option>
-                    <option value="3">Waiting</option>
+                <select class="form-select" name="task-status" (ngModelChange)="onSubmit()" formControlName="status">
+                    <option selected value="ALL">--- Select task status ---</option>
+                    <option value="ALL">All</option>
+                    <option value="CREATED">To do</option>
+                    <option value="IN_PROCESS">In progress</option>
                 </select>
             </div>
             <div class="col-5">
