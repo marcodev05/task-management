@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TaskSearchRequest } from '../models/task-search-request';
 import { ResponseApi } from 'src/app/core/models/response-api.model';
+import { DataSerializerService } from 'src/app/core/services/data-serializer.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +12,13 @@ export class TaskService {
 
   private apiBaseUrl = environment.apiBaseUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private serializer: DataSerializerService) { }
 
   getTasks(param?: any): Observable<ResponseApi<any>> {
-    console.log("param " , param);
-    let params;
-    if(param){
-      params = new HttpParams()
-      .set('pagination.page', param?.pagination ? param.pagination?.page : '1')
-      .set('pagination.size', param?.pagination ? param.pagination.size : '10')
-      .set('keyword', param.keyword)
-    }
-    
-    return this.http.get<any>(this.apiBaseUrl + "/tasks", { params });
+    const serealizedData = this.serializer.buildRequestParameters(param);
+    return this.http.get<any>(this.apiBaseUrl + "/tasks" + serealizedData);
   }
 
   addTask(task: any): Observable<ResponseApi<any>> {
@@ -38,4 +32,5 @@ export class TaskService {
   deleteTask(taskId: number): Observable<ResponseApi<any>> {
     return this.http.delete<ResponseApi<any>>(this.apiBaseUrl + "/tasks/" + taskId);
   }
+
 }
